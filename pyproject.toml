@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wazuh-llm-triage"
+version = "0.1.0"
+description = "Regroupe des alertes Wazuh en incidents priorisés et demande à un modèle un résumé et des actions, sous garde-fous."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Hadrien", email = "hadrienlearn@protonmail.com" }]
+keywords = ["wazuh", "soc", "triage", "llm", "security", "bm25"]
+dependencies = []
+
+[project.optional-dependencies]
+# Appel réel à l'API Claude (facultatif : le dépôt tourne sans, via le stub).
+llm = ["anthropic>=0.40"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+wazuh-triage = "wazuh_triage.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

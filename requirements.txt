@@ -1,0 +1,11 @@
+# Dépendances d'exécution : AUCUNE pour le cœur du pipeline.
+# Le dépôt tourne et se teste hors-ligne (corrélation, faits, priorisation,
+# garde-fous, BM25 et stub LLM sont en Python pur, bibliothèque standard).
+#
+# Appel réel à l'API Claude (facultatif) :
+#   pip install anthropic
+# Tests :
+#   pip install pytest
+#
+# Ou en une fois via les extras du pyproject :
+#   pip install -e ".[llm,dev]"

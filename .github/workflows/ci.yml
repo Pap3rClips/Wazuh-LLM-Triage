@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install (editable + dev)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Regenerate sample and check it is up to date
+        run: |
+          python scripts/generate_sample.py
+          git diff --exit-code data/alerts.sample.json
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Smoke-run the CLI (offline) and assert 8 incidents
+        run: |
+          python -m wazuh_triage.cli --alerts data/alerts.sample.json --offline --json > out.json
+          python -c "import json; d=json.load(open('out.json')); assert len(d)==8, len(d); print('OK:', len(d), 'incidents')"
