@@ -167,5 +167,5 @@ CLI pour confirmer les 8 incidents.
   contourner.
 
 ## Licence
-
+Ce projet est un réedit d'un projet que j'ai réaliser en groupe durant l'année 2025 à Guardia Paris
 MIT — voir [LICENSE](LICENSE).
